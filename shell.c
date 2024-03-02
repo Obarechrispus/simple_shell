@@ -36,27 +36,22 @@ void execute_command(char *command)
 	char **args = malloc(2 * sizeof(char *));
 	pid_t pid;
 	int status;
-	/*char *args[] = {command, NULL};*/
 
 	pid = fork();
-
 	if (pid == -1)
 	{
 		perror("fork");
 		exit(EXIT_FAILURE);
 	}
 	else if (pid == 0)
-	{
-		/* Child process */
+	{/* Child process */
 		if (args == NULL)
 		{
 			perror("mailloc");
 			exit(EXIT_FAILURE);
 		}
-
 		args[0] = command;
 		args[1] = NULL;
-
 		if (strcmp(command, "echo") == 0)
 		{
 			/*ifree(args);*/
@@ -66,13 +61,6 @@ void execute_command(char *command)
 		}
 		else
 		{
-
-		/*if (execve(command, args, NULL) == -1)
-		{
-			fprintf(stderr, "%s: command not found\n", command);
-			free(args);
-			exit(EXIT_FAILURE);
-		}*/
 			if (execvp(command, args) == -1)
 			{
 				fprintf(stderr, "%s: command not found\n", command);
@@ -82,8 +70,7 @@ void execute_command(char *command)
 		free(args);
 	}
 	else
-	{
-		/* Parent process */
+	{/* Parent process */
 		waitpid(pid, &status, 0);
 	}
 }
