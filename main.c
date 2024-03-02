@@ -12,7 +12,10 @@ int main(void)
 
 	while (1)
 	{
-		printf("#alxisfun$ ");
+		if (isatty(STDIN_FILENO))  /*Check if stdin is a terminal*/
+		{
+			display_prompt();
+		}
 		input = read_input();
 		execute_command(input);
 		free(input);
